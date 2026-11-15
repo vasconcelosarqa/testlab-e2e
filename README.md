@@ -6,7 +6,7 @@ Os casos seguem o Plano de Testes Web (versão 1.0.x): cada teste começa com o 
 ## Como rodar
 
 1. Instale Node.js (LTS) e Git.
-2. `git clone https://github.com/<usuario>/testlab-e2e.git && cd testlab-e2e`
+2. `git clone https://github.com/vasconcelosarqa/testlab-e2e.git && cd testlab-e2e`
 3. `npm ci && npx playwright install`
 4. `cp .env.example .env` e preencha os valores (peça ao responsável pelo projeto; eles nunca vão para o repositório).
 5. `npm test`, e depois `npm run test:report` para ver o relatório.
