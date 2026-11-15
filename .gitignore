@@ -1,0 +1,17 @@
+# dependências
+node_modules/
+
+# segredos: NUNCA versionar
+.env
+.env.*
+!.env.example
+
+# sessões salvas pelo Playwright (contêm tokens de login)
+.auth/
+playwright/.auth/
+
+# resultados de execução (podem conter senhas digitadas e cabeçalhos com a chave)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
