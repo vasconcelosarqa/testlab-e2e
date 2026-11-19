@@ -1,0 +1,31 @@
+name: E2E P0
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  p0:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Testes P0 contra o playground
+        run: npx playwright test --grep @p0 --grep-invert @local-only
+        env:
+          CI: true
+          BASE_URL: ${{ secrets.BASE_URL }}
+          PLAYGROUND_KEY: ${{ secrets.PLAYGROUND_KEY }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
