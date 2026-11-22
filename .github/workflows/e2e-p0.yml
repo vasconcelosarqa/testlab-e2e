@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: e2e-${{ github.ref }}
   cancel-in-progress: true
@@ -22,10 +25,18 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+
       - name: Testes P0 contra o playground
         run: npx playwright test --grep @p0 --grep-invert @local-only
         env:
           CI: true
           BASE_URL: ${{ secrets.BASE_URL }}
+          PLAYGROUND_KEY: ${{ secrets.PLAYGROUND_KEY }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+      - name: Resumo dos testes
+        if: ${{ !cancelled() }}
+        run: node scripts/summary.mjs playwright-report/results.json >> "$GITHUB_STEP_SUMMARY"
+        env:
           PLAYGROUND_KEY: ${{ secrets.PLAYGROUND_KEY }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
