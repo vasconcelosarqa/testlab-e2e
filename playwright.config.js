@@ -9,7 +9,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!CI,
   retries: CI ? 1 : 0,
-  reporter: CI ? [['list'], ['github']] : [['list'], ['html', { open: 'never' }]],
+  reporter: CI
+  ? [['list'], ['github'], ['json', { outputFile: 'playwright-report/results.json' }]]
+  : [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: BASE_URL,
     // A chave do playground vai em todas as requisições do navegador.
